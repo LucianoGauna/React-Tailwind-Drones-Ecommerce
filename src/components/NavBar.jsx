@@ -3,18 +3,21 @@ import { LuShoppingBag } from 'react-icons/lu';
 import { FiMenu, FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import { NavList } from '../constants/data';
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { CartContext } from '../cartContext/context.jsx';
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState(false);
   const [scrollBackground, setScrollBackground] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  const { state } = useContext(CartContext) || {};
+
   const location = useLocation();
 
   function handleMenu() {
-    setActiveMenu(!activeMenu) 
+    setActiveMenu(!activeMenu);
   }
 
   let navBackground;
@@ -64,7 +67,9 @@ const NavBar = () => {
   return (
     <div
       className={`top-0 left-0 z-20 fixed py-4 ${navBackground}  px-3 w-full ${
-        activeMenu ? 'max-md:bg-black/95 max-md:h-screen border-none transition-all duration-500 ease-in-out' : ''
+        activeMenu
+          ? 'max-md:bg-black/95 max-md:h-screen border-none transition-all duration-500 ease-in-out'
+          : ''
       } ${scrollBackground ? '' : ''}`}
     >
       <div
@@ -74,7 +79,9 @@ const NavBar = () => {
       >
         <div className="max-w-full">
           <Link to={'/'}>
-            <h1 className={`text-4xl cursor-pointer font-bold ${navText}`}>FaZe</h1>
+            <h1 className={`text-4xl cursor-pointer font-bold ${navText}`}>
+              FaZe
+            </h1>
           </Link>
         </div>
         <div className={`w-full px-2 `}>
@@ -100,9 +107,18 @@ const NavBar = () => {
         </div>
         <div className={`flex items-center justify-between ${navText}`}>
           <BsHeart className="max-md:hidden mr-2 cursor-pointer" />
-          <Link to={'/cart'}>
-            <LuShoppingBag className="max-md:hidden md:mr-2 cursor-pointer" />
-          </Link>
+          {state && state.cart && state.cart.length > 0 ? (
+            <Link to={'/cart'} className="relative">
+              <LuShoppingBag className="max-md:hidden md:mr-2 cursor-pointer" />
+              <span className="max-md:hidden absolute -top-3 left-1 rounded-full px-[7px] py-[2px] bg-red-500 text-white text-[10px] font-bold">
+                {state.cart.length}
+              </span>
+            </Link>
+          ) : (
+            <Link to={'/cart'} className="relative">
+              <LuShoppingBag className="max-md:hidden md:mr-2 cursor-pointer" />
+            </Link>
+          )}
           <FiSearch className="max-md:hidden md:mr-2 cursor-pointer" />
         </div>
         <div

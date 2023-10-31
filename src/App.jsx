@@ -11,8 +11,8 @@ import CartProvider from './cartContext/context';
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
       <CartProvider>
+      <NavBar />
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/contact" exact element={<ContactUs />} />

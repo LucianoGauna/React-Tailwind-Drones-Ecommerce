@@ -15,10 +15,10 @@ const Cart = () => {
         </span>
         <hr className="mt-3" />
       </div>
-      <div className="flex w-full flex-col lg:flex-row">
+      <div className="flex w-full flex-col lg:flex-row gap-6">
         <div className="flex flex-col gap-4 lg:w-4/5">
           <table className="border w-full">
-            <thead>
+            <thead className="max-md:hidden">
               <tr className="border px-4 py-2 bg-gray-100/30">
                 <th></th>
                 <th>Product</th>
@@ -30,26 +30,41 @@ const Cart = () => {
             <tbody>
               {state.cart.length > 0 ? (
                 state.cart.map(item => (
-                  <tr key={item.id} className="text-center">
+                  <tr
+                    key={item.id}
+                    className="text-center max-md:flex max-md:flex-col max-md:border-[1.5px] border-black/90"
+                  >
                     <td className="border px-4">
                       <img
                         src={item.images[0]}
                         alt={item.name}
-                        className="sm:w-[100px] sm:h-[100px] m-auto w-[70px] h-[70px]"
+                        className="w-[100px] h-[100px] m-auto "
                       />
                     </td>
-                    <td className="border px-4 py-2 text-xs sm:text-base lg:text-xl">
+                    <td className="border px-4 py-2 text-base sm:text-base lg:text-xl max-md:font-bold">
                       {item.name}
                     </td>
-                    <td className="border px-4 py-2 text-xs sm:text-base lg:text-xl">
+                    <td className="border px-4 py-2 text-base sm:text-base lg:text-xl max-md:font-semibold max-w-min">
                       €{item.price}
                     </td>
-                    <td className="border px-4 py-2 text-xs sm:text-base lg:text-xl">
-                      <span className="mr-2 border px-2 bg-gray-100 cursor-pointer" onClick={() => delFromCart(item.id)}>-</span>
-                      {item.quantity}
-                      <span className="ml-2 border px-2 bg-gray-100 cursor-pointer" onClick={() => addToCart(item.id)}>+</span>
+                    <td className="border px-4 py-2 text-base sm:text-base lg:text-xl">
+                      <div>
+                        <span
+                          className="mr-2 px-2 cursor-pointer bg-gray-100 rounded font-semibold"
+                          onClick={() => delFromCart(item.id)}
+                        >
+                          {item.quantity === 1 ? 'x' : '-'}
+                        </span>
+                        {item.quantity}
+                        <span
+                          className="ml-2 px-2 cursor-pointer bg-gray-100 rounded font-semibold"
+                          onClick={() => addToCart(item.id)}
+                        >
+                          +
+                        </span>
+                      </div>
                     </td>
-                    <td className="border px-4 py-2 text-xs sm:text-base lg:text-xl">
+                    <td className="border px-4 py-2 text-base sm:text-base lg:text-xl max-md:font-bold">
                       €{item.price * item.quantity}
                     </td>
                   </tr>
@@ -63,8 +78,47 @@ const Cart = () => {
               )}
             </tbody>
           </table>
+          <div className="text-end">
+            <button
+              className="border-2 rounded py-2 px-5 font-semibold hover:bg-red-500/30 tracking-wider hover:underline"
+              onClick={() => clearCart()}
+            >
+              Clear Cart
+            </button>
+          </div>
         </div>
-        <div className="w-1/5 text-center">Hola</div>
+        <div className="lg:w-1/5 w-full text-center">
+          <table className='border'>
+            <thead>
+              <th>Cart Total</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span>Subtotal:</span>
+                  <span>€23423</span>
+                </td>
+                <td>
+                  Shipping:
+                  <form>
+                    <div>
+                      <input type="radio" value="shipping" />
+                      <label htmlFor="">Free shipping </label>
+                    </div>
+                    <div>
+                      <input type="radio" value="shipping" />
+                      <label htmlFor="">Free shipping </label>
+                    </div>
+                    <div>
+                      <input type="radio" value="shipping" />
+                      <label htmlFor="">Free shipping </label>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
