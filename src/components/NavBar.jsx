@@ -103,6 +103,13 @@ const NavBar = () => {
                 </li>
               </Link>
             ))}
+            <Link
+              className={`md:hidden xl:mx-14 hover:text-slate-400 hover:underline cursor-pointer m-0 max-md:text-4xl max-md:py-6 ${navText}`}
+              style={{ fontFamily: 'Roboto Condensed' }}
+              to={'/cart'}
+            >
+              Cart
+            </Link>
           </ul>
         </div>
         <div className={`flex items-center justify-between ${navText}`}>
